@@ -1,6 +1,7 @@
 const url = 'https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json';
 
 function optionChanged(id){
+    //filter
     function getData(person){
         return person.id == id;
     }
@@ -8,13 +9,12 @@ function optionChanged(id){
         let names = data['names'];
         let samples = data['samples'].filter(getData);
         let metadata = data['metadata'].filter(getData);
-        //let samples10 = samples.slice(0,10);
         for(let i = 0; i < names.length; i++){
             d3.select('select').append('option').text(names[i]);
         }
         let otus = samples[0].otu_ids.slice(0,10);
         let otuString = otus.map(otu => `OTU ${otu}`);
-
+        //bar chart
         let trace1 = {
             x: samples[0].sample_values.slice(0,10),
             y: otuString,
@@ -22,7 +22,7 @@ function optionChanged(id){
             type: 'bar',
             orientation: 'h'
         };
-
+        //scatter plot
         let trace2 = {
             x: samples[0].otu_ids,
             y: samples[0].sample_values,
@@ -34,12 +34,13 @@ function optionChanged(id){
             },
             text: samples[0].otu_labels
         };
+        //plot both charts
         let scatterPlot = [trace2];
         Plotly.newPlot('bubble',scatterPlot);
-
+        
         let barPlot = [trace1];
         Plotly.newPlot("bar", barPlot);
-
+        //create metadata
         d3.select('#sample-metadata').selectAll('div').remove();
         d3.select('#sample-metadata').append('div').text(`id: ${metadata[0].id}`);
         d3.select('#sample-metadata').append('div').text(`ethnicity: ${metadata[0].ethnicity}`);
