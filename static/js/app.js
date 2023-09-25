@@ -22,6 +22,13 @@ function optionChanged(id){
             type: 'bar',
             orientation: 'h'
         };
+        let layout1 = {
+            xaxis:{
+                title:{
+                    text: "Sample Value"
+                }
+            }
+        }
         //scatter plot
         let trace2 = {
             x: samples[0].otu_ids,
@@ -34,12 +41,24 @@ function optionChanged(id){
             },
             text: samples[0].otu_labels
         };
+        let layout2 = {
+            xaxis:{
+                title:{
+                    text: "OTU ID"
+                }
+            },
+            yaxis:{
+                title:{
+                    text: "Sample Value"
+                }
+            }
+        }
         //plot both charts
         let scatterPlot = [trace2];
-        Plotly.newPlot('bubble',scatterPlot);
+        Plotly.newPlot('bubble',scatterPlot,layout2);
         
         let barPlot = [trace1];
-        Plotly.newPlot("bar", barPlot);
+        Plotly.newPlot("bar", barPlot,layout1);
         //create metadata
         d3.select('#sample-metadata').selectAll('div').remove();
         d3.select('#sample-metadata').append('div').text(`id: ${metadata[0].id}`);
